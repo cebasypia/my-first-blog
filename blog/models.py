@@ -1,11 +1,14 @@
 from django.db import models
 from django.utils import timezone
 
+def user_portfolio_directory_path(instance, filename):
+    return 'image-{0}/{1}'.format(instance.pk, filename)
+
 class Post(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     text = models.TextField()
-    document = models.FileField(upload_to='documents', blank=True, null=True)
+    document = models.FileField(upload_to=user_portfolio_directory_path, blank=True, null=True)
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
